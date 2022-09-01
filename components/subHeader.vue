@@ -97,10 +97,11 @@ export default {
     methods: {
         getTodayInfo () {
             const nowDate = new Date()
-            const yyyy = nowDate.getFullYear().toString()
-            const MM = this.pad(nowDate.getMonth() + 1, 2)
-            const dd = this.pad(nowDate.getDate(), 2)
-            const hh = this.pad(nowDate.getHours(), 2)
+            const now = new Date(nowDate.setHours(nowDate.getHours() - 3))
+            const yyyy = now.getFullYear().toString()
+            const MM = this.pad(now.getMonth() + 1, 2)
+            const dd = this.pad(now.getDate(), 2)
+            const hh = this.pad(now.getHours(), 2)
             const mm = '00'
 
             this.tDate = yyyy + MM + dd
@@ -119,7 +120,8 @@ export default {
             for (let i = 0; i < this.weather.length; i++) {
                 await axios.get('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=' + this.apiKey + '&numOfRows=10&pageNo=1&base_date=' + this.tDate + '&base_time=' + this.tTime + '&nx=' + this.matchingCode[this.weather[i]].nx + '&ny=' + this.matchingCode[this.weather[i]].ny + '&category=T1H&dataType=json')
                     .then((res) => {
-                        console.log('res' + this.weather[i], res.data)
+                        console.log('resss', res.data)
+                        // const getData = res.data
                     }).catch((err) => {
                         console.log('err', err)
                     })
