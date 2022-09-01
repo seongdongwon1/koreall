@@ -121,11 +121,18 @@ export default {
                 await axios.get('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=' + this.apiKey + '&numOfRows=10&pageNo=1&base_date=' + this.tDate + '&base_time=' + this.tTime + '&nx=' + this.matchingCode[this.weather[i]].nx + '&ny=' + this.matchingCode[this.weather[i]].ny + '&category=T1H&dataType=json')
                     .then((res) => {
                         console.log('resss', res.data)
-                        // const getData = res.data
+                        const getData = res.data.response.body.items.item
+                        getData.forEach((obj) => {
+                            if (obj.category === 'T1H') {
+                                console.log('obj', obj.obsrValue)
+                                this.inputData.push({ ...this.weather[i] = obj.obsrValue })
+                            }
+                        })
                     }).catch((err) => {
                         console.log('err', err)
                     })
             }
+            console.log('inputdata', this.inputData)
         }
     }
 }
