@@ -13,7 +13,7 @@
         <b-navbar-toggle target="nav-collapse" />
 
         <b-collapse id="nav-collapse" is-nav class="header-menu">
-          <b-navbar-nav class="ml-auto">
+          <b-navbar-nav>
             <b-nav-item href="#">
               MENU1
             </b-nav-item>
@@ -44,5 +44,8 @@ export default {
     background-color :#f2f2f2;
     width : 100%;
     /* position: fixed; */
+}
+.header-menu {
+    justify-content: flex-end;
 }
 </style>
