@@ -1,7 +1,16 @@
 <template>
   <div class="weather-area">
-    <MARQUEE class="move-text" scrolldelay="100">
-      asd
+    <MARQUEE loop="infinite" class="move-text" scrolldelay="100">
+      <ul class="content-items">
+        <li
+          v-for="(item, index) in weather"
+          :key="index"
+          class="weather-list"
+        >
+          <strong class="name">{{ item }}</strong>
+          <span style="margin-left: 5px;">{{ inputData[index] }}&deg;C</span>
+        </li>
+      </ul>
     </MARQUEE>
   </div>
 </template>
@@ -116,23 +125,21 @@ export default {
             return str
         },
         async getWeatherData () {
-            this.inputData = []
+            const sendArr = []
             for (let i = 0; i < this.weather.length; i++) {
                 await axios.get('http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=' + this.apiKey + '&numOfRows=10&pageNo=1&base_date=' + this.tDate + '&base_time=' + this.tTime + '&nx=' + this.matchingCode[this.weather[i]].nx + '&ny=' + this.matchingCode[this.weather[i]].ny + '&category=T1H&dataType=json')
                     .then((res) => {
-                        console.log('resss', res.data)
                         const getData = res.data.response.body.items.item
                         getData.forEach((obj) => {
                             if (obj.category === 'T1H') {
-                                console.log('obj', obj.obsrValue)
-                                this.inputData.push({ ...this.weather[i] = obj.obsrValue })
+                                sendArr.push(obj.obsrValue)
                             }
                         })
+                        this.inputData = sendArr
                     }).catch((err) => {
                         console.log('err', err)
                     })
             }
-            console.log('inputdata', this.inputData)
         }
     }
 }
@@ -149,5 +156,22 @@ export default {
     }
     .move-text {
         width : 1140px;
+    }
+    .content-items {
+        display: flex;
+        margin : 0;
+    }
+    .weather-list {
+        list-style : none;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
+    .name {
+        display: inline-block;
+        margin-right: 3px;
+        margin-left: 40px;
+        font-weight: normal;
+        vertical-align: -1px;
     }
 </style>
