@@ -24,9 +24,20 @@
           </div>
         </div>
         <div class="covid-Vaccination">
-          <strong style="font-weight: bold">예방접종 현황</strong>
+          <div class="text-header">
+            <strong style="font-weight: bold">예방접종 현황</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ vaccination.date[0] }})</span>
+          </div>
           <div class="Vaccination-contents">
-            asd
+            <div class="items">
+              <div class="item">
+                <vaccination-today-chart
+                  :vaccination="vaccination.today"
+                />
+              </div>
+              <div class="item">
+                item2
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -37,9 +48,32 @@
 <script>
 import axios from 'axios'
 import convert from 'xml-js'
+import vaccinationTodayChart from '~/components/covid/vaccination/todayChart'
 
 export default {
     name: 'MainContents',
+    components: {
+        vaccinationTodayChart
+    },
+    data () {
+        return {
+            vaccination: {
+                date: '',
+                today: {
+                    first: '',
+                    second: '',
+                    third: '',
+                    four: ''
+                },
+                total: {
+                    first: '',
+                    second: '',
+                    third: '',
+                    four: ''
+                }
+            }
+        }
+    },
     mounted () {
         this.getVaccination()
     },
@@ -51,8 +85,18 @@ export default {
             await axios.get('/api/vaccination')
                 .then((res) => {
                     const dataSet = res.data
-                    const json = convert.xml2json(dataSet, { compact: true })
-                    console.log('res', JSON.parse(json))
+                    const json = JSON.parse(convert.xml2json(dataSet, { compact: true }))
+                    const today = json.response.body.dataTime._text.split(' ')
+                    this.vaccination.date = today
+                    this.vaccination.today.first = json.response.body.items.item[0].firstCnt._text
+                    this.vaccination.today.second = json.response.body.items.item[0].secondCnt._text
+                    this.vaccination.today.third = json.response.body.items.item[0].thirdCnt._text
+                    this.vaccination.today.four = json.response.body.items.item[0].fourCnt._text
+
+                    this.vaccination.total.first = json.response.body.items.item[2].firstCnt._text
+                    this.vaccination.total.second = json.response.body.items.item[2].secondCnt._text
+                    this.vaccination.total.third = json.response.body.items.item[2].thirdCnt._text
+                    this.vaccination.total.four = json.response.body.items.item[2].fourCnt._text
                 }).catch((err) => {
                     console.log('err', err)
                 })
@@ -90,7 +134,8 @@ export default {
 }
 
 .covid-infection .infection-contents{
-    border: 1px solid #888;
+    /*border: 1px solid #888;*/
+    background-color: #ede9e9;
     border-radius: 10px;
 }
 
@@ -99,7 +144,8 @@ export default {
     grid-template-rows: 1fr 10fr;
 }
 .covid-age-group .age-group-contents{
-    border: 1px solid #888;
+    /*border: 1px solid #888;*/
+    background-color: #ede9e9;
     border-radius: 10px;
 }
 
@@ -109,7 +155,8 @@ export default {
 }
 
 .covid-city .city-contents{
-    border: 1px solid #888;
+    /*border: 1px solid #888;*/
+    background-color: #ede9e9;
     border-radius: 10px;
 }
 
@@ -119,7 +166,20 @@ export default {
 }
 
 .covid-Vaccination .Vaccination-contents{
-    border: 1px solid #888;
+    /*border: 1px solid #888;*/
+    background-color: #ede9e9;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.covid-Vaccination .Vaccination-contents .items{
+    width : 95%;
+    height : 95%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+}
+
 </style>
