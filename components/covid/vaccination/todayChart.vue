@@ -1,59 +1,69 @@
 <template>
-  <GChart :type="type" :data="data" :options="options" />
+  <Bar
+    :chart-options="chartOptions"
+    :chart-data="chartData"
+    :chart-id="chartId"
+    :dataset-id-key="datasetIdKey"
+    :plugins="plugins"
+    :css-classes="cssClasses"
+    :styles="styles"
+    :width="width"
+    :height="height"
+  />
 </template>
 
 <script>
-import { GChart } from 'vue-google-charts'
-import { chartType, chartData, chartOptions } from '~/plugins/googleChart'
+import { Bar } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-    name: 'TodayChart',
-    components: {
-        GChart
-    },
-    props: ['vaccination'],
-    data () {
-        return {
-            type: chartType,
-            data: chartData,
-            options: chartOptions
+    name: 'BarChart',
+    components: { Bar },
+    props: {
+        chartId: {
+            type: String,
+            default: 'bar-chart'
+        },
+        datasetIdKey: {
+            type: String,
+            default: 'label'
+        },
+        width: {
+            type: Number,
+            default: 400
+        },
+        height: {
+            type: Number,
+            default: 400
+        },
+        cssClasses: {
+            default: '',
+            type: String
+        },
+        styles: {
+            type: Object,
+            default: () => {}
+        },
+        plugins: {
+            type: Object,
+            default: () => {}
         }
     },
-    mounted () {
-        this.google.charts.load('current', { packages: ['corechart', 'bar'] })
-        this.google.charts.setOnLoadCallback(this.drawBasic)
-    },
-    methods: {
-        drawBasic () {
-            const data = this.google.visualization.arrayToDataTable([
-                ['City', '2010 Population'],
-                ['New York City, NY', 8175000],
-                ['Los Angeles, CA', 3792000],
-                ['Chicago, IL', 2695000],
-                ['Houston, TX', 2099000],
-                ['Philadelphia, PA', 1526000]
-            ])
-
-            const options = {
-                title: 'Population of Largest U.S. Cities',
-                chartArea: { width: '50%' },
-                hAxis: {
-                    title: 'Total Population',
-                    minValue: 0
-                },
-                vAxis: {
-                    title: 'City'
-                }
+    data () {
+        return {
+            chartData: {
+                labels: ['January', 'February', 'March'],
+                datasets: [{ data: [40, 20, 12] }]
+            },
+            chartOptions: {
+                responsive: true
             }
-
-            const chart = new this.google.visualization.BarChart(this.$refs.chart_div)
-
-            chart.draw(data, options)
         }
     }
 }
 </script>
-
 <style scoped>
 
 </style>

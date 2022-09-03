@@ -30,9 +30,7 @@
           <div class="Vaccination-contents">
             <div class="items">
               <div class="item">
-                <vaccination-today-chart
-                  :vaccination="vaccination.today"
-                />
+                <vaccination-today-chart />
               </div>
               <div class="item">
                 item2
@@ -134,7 +132,6 @@ export default {
 }
 
 .covid-infection .infection-contents{
-    /*border: 1px solid #888;*/
     background-color: #ede9e9;
     border-radius: 10px;
 }
@@ -144,7 +141,6 @@ export default {
     grid-template-rows: 1fr 10fr;
 }
 .covid-age-group .age-group-contents{
-    /*border: 1px solid #888;*/
     background-color: #ede9e9;
     border-radius: 10px;
 }
@@ -155,7 +151,6 @@ export default {
 }
 
 .covid-city .city-contents{
-    /*border: 1px solid #888;*/
     background-color: #ede9e9;
     border-radius: 10px;
 }
@@ -166,7 +161,6 @@ export default {
 }
 
 .covid-Vaccination .Vaccination-contents{
-    /*border: 1px solid #888;*/
     background-color: #ede9e9;
     border-radius: 10px;
     display: flex;
