@@ -22,34 +22,32 @@ export default {
     name: 'BarChart',
     components: { Bar },
     props: {
-        // chartId: {
-        //     type: String,
-        //     default: 'bar-chart'
-        // },
-        // datasetIdKey: {
-        //     type: String,
-        //     default: 'label'
-        // },
-        // width: {
-        //     type: Number,
-        //     default: 400
-        // },
-        // height: {
-        //     type: Number,
-        //     default: 400
-        // },
-        // cssClasses: {
-        //     default: '',
-        //     type: String
-        // },
-        // styles: {
-        //     type: Object,
-        //     default: () => {}
-        // },
-        // plugins: {
-        //     type: Object,
-        //     default: () => {}
-        // }
+        chartId: {
+            type: String,
+            default: 'bar-chart'
+        },
+        datasetIdKey: {
+            type: String,
+            default: 'label'
+        },
+        width: {
+            type: Number
+        },
+        height: {
+            type: Number
+        },
+        cssClasses: {
+            default: '',
+            type: String
+        },
+        styles: {
+            type: Object,
+            default: () => {}
+        },
+        plugins: {
+            type: Object,
+            default: () => {}
+        }
     },
     data () {
         return {
@@ -58,7 +56,8 @@ export default {
                 datasets: [{ data: [40, 20, 12] }]
             },
             chartOptions: {
-                responsive: true
+                responsive: true,
+                maintainAspectRatio: false
             }
         }
     }

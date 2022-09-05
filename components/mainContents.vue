@@ -29,8 +29,12 @@
           </div>
           <div class="Vaccination-contents">
             <div class="items">
-              <div class="item">
-                <vaccination-today-chart />
+              <div ref="vaccination-left" class="item">
+                <vaccination-today-chart
+                  :today="vaccination.today"
+                  :total="vaccination.total"
+                  :area="getHeight"
+                />
               </div>
               <div class="item">
                 item2
@@ -68,7 +72,17 @@ export default {
                     second: '',
                     third: '',
                     four: ''
-                }
+                },
+                width: '',
+                height: ''
+            }
+        }
+    },
+    computed: {
+        getHeight () {
+            return {
+                width: this.$refs['vaccination-left'].scrollWidth,
+                height: this.$refs['vaccination-left'].scrollHeight
             }
         }
     },
