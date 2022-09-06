@@ -15,7 +15,7 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
     name: 'BarChart',
     components: { Bar },
-    props: ['today'],
+    props: ['total'],
     data () {
         return {
             chartOptions: {
@@ -30,17 +30,17 @@ export default {
                 labels: [],
                 datasets: [
                     {
-                        label: '오늘 종합현황',
+                        label: '전체 종합현황',
                         backgroundColor: '#142c67',
                         data: []
                     }
                 ]
             }
             chartData.labels.push('1차', '2차', '3차', '4차')
-            chartData.datasets[0].data.push(this.today.first)
-            chartData.datasets[0].data.push(this.today.second)
-            chartData.datasets[0].data.push(this.today.third)
-            chartData.datasets[0].data.push(this.today.four)
+            chartData.datasets[0].data.push(this.total.first)
+            chartData.datasets[0].data.push(this.total.second)
+            chartData.datasets[0].data.push(this.total.third)
+            chartData.datasets[0].data.push(this.total.four)
             return chartData
         }
     }

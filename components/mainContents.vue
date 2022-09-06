@@ -29,15 +29,15 @@
           </div>
           <div class="Vaccination-contents">
             <div class="items">
-              <div ref="vaccination-left" class="item">
+              <div class="item">
                 <vaccination-today-chart
                   :today="vaccination.today"
-                  :total="vaccination.total"
-                  :area="getHeight"
                 />
               </div>
               <div class="item">
-                item2
+                <vaccination-total-chart
+                  :total="vaccination.total"
+                />
               </div>
             </div>
           </div>
@@ -51,11 +51,13 @@
 import axios from 'axios'
 import convert from 'xml-js'
 import vaccinationTodayChart from '~/components/covid/vaccination/todayChart'
+import vaccinationTotalChart from '~/components/covid/vaccination/totalChart'
 
 export default {
     name: 'MainContents',
     components: {
-        vaccinationTodayChart
+        vaccinationTodayChart,
+        vaccinationTotalChart
     },
     data () {
         return {
@@ -72,17 +74,7 @@ export default {
                     second: '',
                     third: '',
                     four: ''
-                },
-                width: '',
-                height: ''
-            }
-        }
-    },
-    computed: {
-        getHeight () {
-            return {
-                width: this.$refs['vaccination-left'].scrollWidth,
-                height: this.$refs['vaccination-left'].scrollHeight
+                }
             }
         }
     },
