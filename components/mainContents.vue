@@ -15,7 +15,7 @@
         </div>
         <div class="covid-age-group">
           <div class="text-header">
-            <strong style="font-weight: bold">연령별, 성별감염 현황</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ ageSex.date }})</span>
+            <strong style="font-weight: bold">연령별 감염률</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ ageSex.date }})</span>
           </div>
           <div class="age-group-contents">
             <age-sex-chart
@@ -124,15 +124,15 @@ export default {
                     eightyUp: {
                         confCase: '',
                         confCaseRate: ''
-                    },
-                    woman: {
-                        confCase: '',
-                        confCaseRate: ''
-                    },
-                    man: {
-                        confCase: '',
-                        confCaseRate: ''
                     }
+                    // woman: {
+                    //     confCase: '',
+                    //     confCaseRate: ''
+                    // },
+                    // man: {
+                    //     confCase: '',
+                    //     confCaseRate: ''
+                    // }
                 }
             }
         }
@@ -190,10 +190,10 @@ export default {
                     this.ageSex.gubun.seventyToSeventyNine.confCaseRate = dataSet.response.body.items.item[7].confCaseRate
                     this.ageSex.gubun.eightyUp.confCase = dataSet.response.body.items.item[8].confCase
                     this.ageSex.gubun.eightyUp.confCaseRate = dataSet.response.body.items.item[8].confCaseRate
-                    this.ageSex.gubun.woman.confCase = dataSet.response.body.items.item[9].confCase
-                    this.ageSex.gubun.woman.confCaseRate = dataSet.response.body.items.item[9].confCaseRate
-                    this.ageSex.gubun.man.confCase = dataSet.response.body.items.item[10].confCase
-                    this.ageSex.gubun.man.confCaseRate = dataSet.response.body.items.item[10].confCaseRate
+                    // this.ageSex.gubun.woman.confCase = dataSet.response.body.items.item[9].confCase
+                    // this.ageSex.gubun.woman.confCaseRate = dataSet.response.body.items.item[9].confCaseRate
+                    // this.ageSex.gubun.man.confCase = dataSet.response.body.items.item[10].confCase
+                    // this.ageSex.gubun.man.confCaseRate = dataSet.response.body.items.item[10].confCaseRate
                 })
                 .catch((err) => {
                     console.log('err', err)

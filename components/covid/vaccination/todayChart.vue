@@ -20,7 +20,16 @@ export default {
         return {
             chartOptions: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (tooltipItems, data) => {
+                                return tooltipItems.dataset.label + ':' + tooltipItems.formattedValue + '명'
+                            }
+                        }
+                    }
+                }
             }
         }
     },

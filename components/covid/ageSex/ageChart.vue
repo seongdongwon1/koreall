@@ -8,6 +8,7 @@
 
 <script>
 import { Pie } from 'vue-chartjs/legacy'
+
 import {
     Chart as ChartJS,
     Title,
@@ -21,7 +22,7 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 export default {
     name: 'AgeChart',
     components: { Pie },
-    props: ['gubun'],
+    props: ['agesex'],
     data () {
         return {
             chartOptions: {
@@ -30,6 +31,13 @@ export default {
                 plugins: {
                     legend: {
                         position: 'right'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (tooltipItems, data) => {
+                                return tooltipItems.label + ':' + tooltipItems.formattedValue + '%'
+                            }
+                        }
                     }
                 }
             }
@@ -42,13 +50,15 @@ export default {
                 datasets: [
                     {
                         backgroundColor: ['#FF0000', '#FF7F00', '#FFE302', '#7FFF00', '#008000', '#00FFFF', '#0000FF', '#000080', '#800080'],
-                        data: []
+                        data: [],
+                        dataLabels: {
+                            color: 'white'
+                        }
                     }
                 ]
             }
-            for (const i in this.gubun) {
-                console.log('ii', i)
-                console.log('gubun', this.gubun)
+            for (const i in this.agesex) {
+                chartData.datasets[0].data.push(this.agesex[i].confCaseRate)
             }
             return chartData
         }
