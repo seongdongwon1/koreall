@@ -30,7 +30,8 @@ export default {
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
         '~/plugins/bootstrap.js',
-        '~/plugins/chartjs.js'
+        '~/plugins/chartjs.js',
+        '~/plugins/filters.js'
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -64,6 +65,12 @@ export default {
         '/api/agesex': {
             target: 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?ServiceKey=pYO1nVorD2xTWG%2F6GzmC3bRYZoOOMyJ0YbEG3ByX4l22EpmZoYkFO6UsMt%2BDM5PKg9BpyLbSiVN5HMIaf6PUTQ%3D%3D',
             pathRewrite: { '^/api/agesex': '' },
+            changeOrigin: true,
+            secure: false
+        },
+        '/api/infection': {
+            target: 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?serviceKey=pYO1nVorD2xTWG%2F6GzmC3bRYZoOOMyJ0YbEG3ByX4l22EpmZoYkFO6UsMt%2BDM5PKg9BpyLbSiVN5HMIaf6PUTQ%3D%3D&pageNo=1&numOfRows=10&startCreateDt=20220914',
+            pathRewrite: { '^/api/infection': '' },
             changeOrigin: true,
             secure: false
         }

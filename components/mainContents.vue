@@ -7,28 +7,21 @@
       <div class="covid-main-contents">
         <div class="covid-infection">
           <div class="text-header">
-            <strong style="font-weight: bold">감연현황</strong>
+            <strong style="font-weight: bold">감염현황</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ infection.date }})</span>
           </div>
           <div class="infection-contents">
-            asd
-          </div>
-        </div>
-        <div class="covid-age-group">
-          <div class="text-header">
-            <strong style="font-weight: bold">연령별 감염률</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ ageSex.date }})</span>
-          </div>
-          <div class="age-group-contents">
-            <age-sex-chart
-              :agesex="ageSex.gubun"
-            />
-          </div>
-        </div>
-        <div class="covid-city">
-          <div class="text-header">
-            <strong style="font-weight: bold">도시별 현황</strong>
-          </div>
-          <div class="city-contents">
-            asd
+            <div class="infection-text-info">
+              <div class="text">
+                <infection-text
+                  :infection="infection"
+                />
+              </div>
+            </div>
+            <div class="infection-chart">
+              <div class="chart">
+                asd
+              </div>
+            </div>
           </div>
         </div>
         <div class="covid-Vaccination">
@@ -50,6 +43,24 @@
             </div>
           </div>
         </div>
+        <div class="covid-age-group">
+          <div class="text-header">
+            <strong style="font-weight: bold">연령별 감염률</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ ageSex.date }})</span>
+          </div>
+          <div class="age-group-contents">
+            <age-sex-chart
+              :agesex="ageSex.gubun"
+            />
+          </div>
+        </div>
+        <div class="covid-city">
+          <div class="text-header">
+            <strong style="font-weight: bold">도시별 현황</strong>
+          </div>
+          <div class="city-contents">
+            asd
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -61,13 +72,15 @@ import convert from 'xml-js'
 import vaccinationTodayChart from '~/components/covid/vaccination/todayChart'
 import vaccinationTotalChart from '~/components/covid/vaccination/totalChart'
 import ageSexChart from '~/components/covid/ageSex/ageChart'
+import infectionText from '~/components/covid/infection/text'
 
 export default {
     name: 'MainContents',
     components: {
         vaccinationTodayChart,
         vaccinationTotalChart,
-        ageSexChart
+        ageSexChart,
+        infectionText
     },
     data () {
         return {
@@ -125,14 +138,17 @@ export default {
                         confCase: '',
                         confCaseRate: ''
                     }
-                    // woman: {
-                    //     confCase: '',
-                    //     confCaseRate: ''
-                    // },
-                    // man: {
-                    //     confCase: '',
-                    //     confCaseRate: ''
-                    // }
+                }
+            },
+            infection: {
+                date: '',
+                today: {
+                    infection: '',
+                    death: ''
+                },
+                total: {
+                    infection: '',
+                    death: ''
                 }
             }
         }
@@ -140,6 +156,7 @@ export default {
     mounted () {
         this.getAgeSex()
         this.getVaccination()
+        this.getInfection()
     },
     methods: {
         /**
@@ -168,7 +185,6 @@ export default {
         async getAgeSex () {
             await axios.get('/api/agesex')
                 .then((res) => {
-                    console.log('res', res.data)
                     const dataSet = res.data
                     const today = dataSet.response.body.items.item[0].createDt.split(' ')
                     this.ageSex.date = today[0]
@@ -190,10 +206,23 @@ export default {
                     this.ageSex.gubun.seventyToSeventyNine.confCaseRate = dataSet.response.body.items.item[7].confCaseRate
                     this.ageSex.gubun.eightyUp.confCase = dataSet.response.body.items.item[8].confCase
                     this.ageSex.gubun.eightyUp.confCaseRate = dataSet.response.body.items.item[8].confCaseRate
-                    // this.ageSex.gubun.woman.confCase = dataSet.response.body.items.item[9].confCase
-                    // this.ageSex.gubun.woman.confCaseRate = dataSet.response.body.items.item[9].confCaseRate
-                    // this.ageSex.gubun.man.confCase = dataSet.response.body.items.item[10].confCase
-                    // this.ageSex.gubun.man.confCaseRate = dataSet.response.body.items.item[10].confCaseRate
+                })
+                .catch((err) => {
+                    console.log('err', err)
+                })
+        },
+        async getInfection () {
+            await axios.get('api/infection')
+                .then((res) => {
+                    const dataSet = res.data
+                    const today = dataSet.response.body.items.item[0].createDt.split(' ')
+                    this.infection.date = today[0]
+                    const todayData = dataSet.response.body.items.item[0]
+                    const totalData = dataSet.response.body.items.item[1]
+                    this.infection.today.infection = todayData.decideCnt - totalData.decideCnt
+                    this.infection.today.death = todayData.deathCnt - totalData.deathCnt
+                    this.infection.total.infection = totalData.decideCnt
+                    this.infection.total.death = totalData.deathCnt
                 })
                 .catch((err) => {
                     console.log('err', err)
@@ -234,8 +263,31 @@ export default {
 .covid-infection .infection-contents{
     background-color: #ede9e9;
     border-radius: 10px;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
 }
 
+.covid-infection .infection-contents .infection-text-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.covid-infection .infection-contents .infection-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.covid-infection .infection-contents .infection-text-info .text {
+    width : 95%;
+    height : 95%;
+}
+
+.covid-infection .infection-contents .infection-chart .chart {
+    width : 95%;
+    height : 95%;
+}
 .covid-age-group {
     display: grid;
     grid-template-rows: 1fr 10fr;
