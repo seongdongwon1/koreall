@@ -40,7 +40,7 @@ export default {
                 datasets: [
                     {
                         label: '오늘 접종현황',
-                        backgroundColor: '#142c67',
+                        backgroundColor: '#95abdd',
                         data: []
                     }
                 ]

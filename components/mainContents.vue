@@ -12,6 +12,7 @@
           <div class="infection-contents">
             <div class="infection-text-info">
               <div class="text">
+                <strong>확진자 및 사망자 현황</strong>
                 <infection-text
                   :infection="infection"
                 />
@@ -19,7 +20,8 @@
             </div>
             <div class="infection-chart">
               <div class="chart">
-                asd
+                <strong>주간 현황</strong>
+                <infection-weekly />
               </div>
             </div>
           </div>
@@ -73,6 +75,7 @@ import vaccinationTodayChart from '~/components/covid/vaccination/todayChart'
 import vaccinationTotalChart from '~/components/covid/vaccination/totalChart'
 import ageSexChart from '~/components/covid/ageSex/ageChart'
 import infectionText from '~/components/covid/infection/text'
+import infectionWeekly from '~/components/covid/infection/weekly'
 
 export default {
     name: 'MainContents',
@@ -80,7 +83,8 @@ export default {
         vaccinationTodayChart,
         vaccinationTotalChart,
         ageSexChart,
-        infectionText
+        infectionText,
+        infectionWeekly
     },
     data () {
         return {
@@ -264,7 +268,7 @@ export default {
     background-color: #ede9e9;
     border-radius: 10px;
     display: grid;
-    grid-template-rows: 1fr 3fr;
+    grid-template-rows: repeat(3, 1fr);
 }
 
 .covid-infection .infection-contents .infection-text-info {
