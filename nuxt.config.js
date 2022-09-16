@@ -69,7 +69,7 @@ export default {
             secure: false
         },
         '/api/infection': {
-            target: 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?serviceKey=pYO1nVorD2xTWG%2F6GzmC3bRYZoOOMyJ0YbEG3ByX4l22EpmZoYkFO6UsMt%2BDM5PKg9BpyLbSiVN5HMIaf6PUTQ%3D%3D&pageNo=1&numOfRows=10&startCreateDt=20220914',
+            target: 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?serviceKey=pYO1nVorD2xTWG%2F6GzmC3bRYZoOOMyJ0YbEG3ByX4l22EpmZoYkFO6UsMt%2BDM5PKg9BpyLbSiVN5HMIaf6PUTQ%3D%3D&pageNo=1&numOfRows=10&startCreateDt=20220101',
             pathRewrite: { '^/api/infection': '' },
             changeOrigin: true,
             secure: false

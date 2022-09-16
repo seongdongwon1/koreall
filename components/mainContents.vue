@@ -18,10 +18,22 @@
                 />
               </div>
             </div>
-            <div class="infection-chart">
+            <div class="infection-weekly">
               <div class="chart">
                 <strong>주간 현황</strong>
-                <infection-weekly />
+                <infection-weekly
+                  :weekly="infection.weekly"
+                  :type="'week'"
+                />
+              </div>
+            </div>
+            <div class="infection-monthly">
+              <div class="chart">
+                <strong>월간 현황</strong>
+                <infection-weekly
+                  :weekly="infection.monthly"
+                  :type="'month'"
+                />
               </div>
             </div>
           </div>
@@ -150,6 +162,16 @@ export default {
                     infection: '',
                     death: ''
                 },
+                weekly: {
+                    date: [],
+                    infection: [],
+                    death: []
+                },
+                monthly: {
+                    date: [],
+                    infection: [],
+                    death: []
+                },
                 total: {
                     infection: '',
                     death: ''
@@ -164,7 +186,7 @@ export default {
     },
     methods: {
         /**
-         *  접종현황 data
+         *  접종현황 api 호출
          */
         async getVaccination () {
             await axios.get('/api/vaccination')
@@ -186,6 +208,9 @@ export default {
                     console.log('err', err)
                 })
         },
+        /**
+         *  성별 감연현황 api 호출
+         */
         async getAgeSex () {
             await axios.get('/api/agesex')
                 .then((res) => {
@@ -215,6 +240,9 @@ export default {
                     console.log('err', err)
                 })
         },
+        /**
+         *  감연현황 api 호출
+         */
         async getInfection () {
             await axios.get('api/infection')
                 .then((res) => {
@@ -227,10 +255,51 @@ export default {
                     this.infection.today.death = todayData.deathCnt - totalData.deathCnt
                     this.infection.total.infection = totalData.decideCnt
                     this.infection.total.death = totalData.deathCnt
+
+                    // weekly
+                    for (let i = 1; i < 8; i++) {
+                        const pushSet = dataSet.response.body.items.item
+                        const split = pushSet[i].createDt.split(' ')
+                        const split2 = split[0].split('-')
+                        const date = split2[1] + '.' + split2[2]
+                        this.infection.weekly.date.unshift(date)
+                        this.infection.weekly.infection.unshift(pushSet[i - 1].decideCnt - pushSet[i].decideCnt)
+                        this.infection.weekly.death.unshift(pushSet[i - 1].deathCnt - pushSet[i].deathCnt)
+                    }
+
+                    // monthly
+                    this.monthlyFunc(dataSet.response.body.items.item)
                 })
                 .catch((err) => {
                     console.log('err', err)
                 })
+        },
+        monthlyFunc (data) {
+            const lineMonth = new Date(data[0].createDt).getMonth() + 1
+            let changeMonth = lineMonth
+            this.infection.monthly.date.unshift(changeMonth)
+            let sumInfection = 0
+            let sumDeath = 0
+            for (let i = 0; i < data.length; i++) {
+                const monthCheck = new Date(data[i].createDt).getMonth() + 1
+                if (monthCheck > lineMonth - 5) {
+                    if (changeMonth === monthCheck) {
+                        sumInfection = sumInfection + (data[i].decideCnt - data[i + 1].decideCnt)
+                        sumDeath = sumDeath + (data[i].deathCnt - data[i + 1].deathCnt)
+                    } else {
+                        this.infection.monthly.infection.unshift(sumInfection)
+                        this.infection.monthly.death.unshift(sumDeath)
+                        sumInfection = 0
+                        sumDeath = 0
+                        changeMonth = monthCheck
+                        this.infection.monthly.date.unshift(changeMonth)
+                    }
+                } else {
+                    this.infection.monthly.infection.unshift(sumInfection)
+                    this.infection.monthly.death.unshift(sumDeath)
+                    return
+                }
+            }
         }
     }
 }
@@ -268,7 +337,7 @@ export default {
     background-color: #ede9e9;
     border-radius: 10px;
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    /*grid-template-rows: 0.7fr 1fr 1fr*/
 }
 
 .covid-infection .infection-contents .infection-text-info {
@@ -277,7 +346,13 @@ export default {
     align-items: center;
 }
 
-.covid-infection .infection-contents .infection-chart {
+.covid-infection .infection-contents .infection-weekly {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.covid-infection .infection-contents .infection-monthly {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -288,10 +363,16 @@ export default {
     height : 95%;
 }
 
-.covid-infection .infection-contents .infection-chart .chart {
+.covid-infection .infection-contents .infection-weekly .chart {
     width : 95%;
     height : 95%;
 }
+
+.covid-infection .infection-contents .infection-monthly .chart {
+    width : 95%;
+    height : 95%;
+}
+
 .covid-age-group {
     display: grid;
     grid-template-rows: 1fr 10fr;

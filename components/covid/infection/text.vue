@@ -28,20 +28,20 @@ export default {
 
 <style scoped>
     table thead tr th {
-        padding: 6.5px 5px;
+        padding: 3px 2px;
         border: 1px solid #504e4e;
         border-bottom-color: #504e4e;
         font-weight: bold;
         background-color: #95abdd;
         text-align: center;
         color: white;
-        font-size: 14px;
+        font-size: 13px;
     }
     table tbody tr td {
-        padding: 6.5px 5px;
+        padding: 3px 2px;
         border: 1px solid #504e4e;
         font-weight: normal;
         text-align: center;
-        font-size: 14px;
+        font-size: 13px;
     }
 </style>
