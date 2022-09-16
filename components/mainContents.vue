@@ -72,7 +72,7 @@
             <strong style="font-weight: bold">도시별 현황</strong>
           </div>
           <div class="city-contents">
-            asd
+            <area-map />
           </div>
         </div>
       </div>
@@ -88,6 +88,7 @@ import vaccinationTotalChart from '~/components/covid/vaccination/totalChart'
 import ageSexChart from '~/components/covid/ageSex/ageChart'
 import infectionText from '~/components/covid/infection/text'
 import infectionWeekly from '~/components/covid/infection/weekly'
+import areaMap from '~/components/covid/area/areaMap'
 
 export default {
     name: 'MainContents',
@@ -96,7 +97,8 @@ export default {
         vaccinationTotalChart,
         ageSexChart,
         infectionText,
-        infectionWeekly
+        infectionWeekly,
+        areaMap
     },
     data () {
         return {
@@ -393,6 +395,9 @@ export default {
 .covid-city .city-contents{
     background-color: #ede9e9;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .covid-Vaccination {
