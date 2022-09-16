@@ -31,8 +31,7 @@ export default {
     plugins: [
         '~/plugins/bootstrap.js',
         '~/plugins/chartjs.js',
-        '~/plugins/filters.js',
-        '~/plugins/amChart.js'
+        '~/plugins/filters.js'
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
