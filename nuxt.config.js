@@ -73,6 +73,12 @@ export default {
             pathRewrite: { '^/api/infection': '' },
             changeOrigin: true,
             secure: false
+        },
+        '/api/area': {
+            target: 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=pYO1nVorD2xTWG%2F6GzmC3bRYZoOOMyJ0YbEG3ByX4l22EpmZoYkFO6UsMt%2BDM5PKg9BpyLbSiVN5HMIaf6PUTQ%3D%3D',
+            pathRewrite: { '^/api/area': '' },
+            changeOrigin: true,
+            secure: false
         }
     },
     // Build Configuration: https://go.nuxtjs.dev/config-build

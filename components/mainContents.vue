@@ -39,11 +39,16 @@
           </div>
         </div>
         <div class="covid-Vaccination">
-          <div class="text-header">
-            <strong style="font-weight: bold">예방접종 현황</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ vaccination.date[0] }})</span>
+          <div
+            class="text-header"
+          >
+            <strong style="font-weight: bold">예방접종 현황</strong><span v-if="vaccinationType" style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ vaccination.date[0] }})</span>
           </div>
           <div class="Vaccination-contents">
-            <div class="items">
+            <div
+              v-if="vaccinationType"
+              class="items"
+            >
               <div class="item">
                 <vaccination-today-chart
                   :today="vaccination.today"
@@ -54,6 +59,11 @@
                   :total="vaccination.total"
                 />
               </div>
+            </div>
+            <div
+              v-else
+            >
+              주말엔 데이터가 없습니다. :(
             </div>
           </div>
         </div>
@@ -69,10 +79,12 @@
         </div>
         <div class="covid-city">
           <div class="text-header">
-            <strong style="font-weight: bold">도시별 현황</strong>
+            <strong style="font-weight: bold">도시별 감염현황</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ area.date }})  단위: 명</span>
           </div>
           <div class="city-contents">
-            <area-map />
+            <area-map
+              :area="area"
+            />
           </div>
         </div>
       </div>
@@ -102,6 +114,7 @@ export default {
     },
     data () {
         return {
+            vaccinationType: true,
             vaccination: {
                 date: '',
                 today: {
@@ -178,6 +191,13 @@ export default {
                     infection: '',
                     death: ''
                 }
+            },
+            area: {
+                date: '',
+                city: [],
+                totalInfection: [],
+                todayInfection: [],
+                englishName: []
             }
         }
     },
@@ -185,6 +205,7 @@ export default {
         this.getAgeSex()
         this.getVaccination()
         this.getInfection()
+        this.getArea()
     },
     methods: {
         /**
@@ -207,7 +228,8 @@ export default {
                     this.vaccination.total.third = json.response.body.items.item[2].thirdCnt._text
                     this.vaccination.total.four = json.response.body.items.item[2].fourCnt._text
                 }).catch((err) => {
-                    console.log('err', err)
+                    this.vaccinationType = false
+                    console.error('접종현황 데이터가 없거나 오류 입니다.', err)
                 })
         },
         /**
@@ -239,7 +261,7 @@ export default {
                     this.ageSex.gubun.eightyUp.confCaseRate = dataSet.response.body.items.item[8].confCaseRate
                 })
                 .catch((err) => {
-                    console.log('err', err)
+                    console.error('성별 감염현황 데이터가 없거나 오류 입니다.', err)
                 })
         },
         /**
@@ -273,6 +295,22 @@ export default {
                     this.monthlyFunc(dataSet.response.body.items.item)
                 })
                 .catch((err) => {
+                    console.error('감염현황 데이터가 없거나 오류 입니다.', err)
+                })
+        },
+        async getArea () {
+            await axios.get('api/area')
+                .then((res) => {
+                    const dataSet = res.data.response.body.items
+                    const today = dataSet.item[0].createDt.split(' ')
+                    this.area.date = today[0]
+                    for (let i = 0; i < dataSet.item.length; i++) {
+                        this.area.city.push(dataSet.item[i].gubun)
+                        this.area.totalInfection.push(dataSet.item[i].defCnt)
+                        this.area.todayInfection.push(dataSet.item[i].incDec)
+                        this.area.englishName.push(dataSet.item[i].gubunEn)
+                    }
+                }).catch((err) => {
                     console.log('err', err)
                 })
         },
