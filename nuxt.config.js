@@ -1,8 +1,12 @@
+const LOCAL_ORIGIN = 'http://localhost:3000/koreall/'
+
+const ORIGIN = process.env.ORIGIN ? process.env.ORIGIN : LOCAL_ORIGIN
+
 export default {
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     target: 'static',
     router: {
-        base: '/koreall/'
+        base: '/'
     },
     ssr: false,
 
@@ -10,7 +14,7 @@ export default {
     head: {
         title: 'koreall',
         htmlAttrs: {
-            lang: 'en'
+            lang: 'ko'
         },
         meta: [
             { charset: 'utf-8' },
@@ -56,7 +60,7 @@ export default {
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {
         // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-        baseURL: '/',
+        baseURL: ORIGIN,
         proxy: true
     },
     proxy: {
