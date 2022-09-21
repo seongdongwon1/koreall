@@ -1,5 +1,7 @@
 <template>
-  <div>asd</div>
+  <div class="movieContents-container">
+    <div>asd</div>
+  </div>
 </template>
 
 <script>
@@ -19,5 +21,8 @@ export default {
 </script>
 
 <style scoped>
-
+    .movieContents-container {
+        width : 1100px;
+        margin : 0 auto;
+    }
 </style>

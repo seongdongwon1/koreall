@@ -3,6 +3,7 @@
     <all-header />
     <sub-header />
     <main-contents />
+    <hr class="line">
     <movie-contents />
   </div>
 </template>
@@ -51,5 +52,16 @@ export default {
 html, body {
     margin : 0;
     padding : 0;
+}
+
+.line {
+    width: 1100px;
+    height: 5px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-color: #888;
+    margin-bottom: 20px;
+    background-color: #888;
+    opacity: 0;
 }
 </style>
