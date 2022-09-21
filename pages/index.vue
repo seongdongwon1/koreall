@@ -3,6 +3,7 @@
     <all-header />
     <sub-header />
     <main-contents />
+    <movie-contents />
   </div>
 </template>
 
@@ -10,10 +11,11 @@
 import allHeader from '~/components/header'
 import subHeader from '~/components/subHeader'
 import mainContents from '~/components/mainContents'
+import movieContents from '~/components/movieContents'
 
 export default {
     name: 'IndexPage',
-    components: { allHeader, mainContents, subHeader },
+    components: { allHeader, mainContents, subHeader, movieContents },
     head () {
         return {
             title: this.title,
