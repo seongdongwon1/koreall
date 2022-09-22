@@ -1,9 +1,10 @@
 
 export default {
-    target: 'static',
-    router: {
-        base: '/koreall/'
-    },
+    // target: 'static',
+    // router: {
+    //     base: '/koreall/'
+    // },
+    // publicPath: './',
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
     // Global page headers: https://go.nuxtjs.dev/config-head
@@ -20,7 +21,8 @@ export default {
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap' }
+            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap' },
+            { rel: 'stylesheet', href: 'https://www.w3schools.com/w3css/4/w3.css' }
         ],
         script: [
             { src: 'https://www.gstatic.com/charts/loader.js' }
@@ -35,7 +37,8 @@ export default {
     plugins: [
         '~/plugins/bootstrap.js',
         '~/plugins/chartjs.js',
-        '~/plugins/filters.js'
+        '~/plugins/filters.js',
+        '~/plugins/helper.js'
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,7 +49,6 @@ export default {
         // https://go.nuxtjs.dev/eslint
         '@nuxtjs/eslint-module'
     ],
-
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
         // https://go.nuxtjs.dev/axios
@@ -58,6 +60,7 @@ export default {
         // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
         baseURL: '/',
         proxy: true
+        // credentials: true
     },
     proxy: {
         '/api/vaccination': {

@@ -1,22 +1,23 @@
 <template>
   <div class="movieContents-container">
-    <div>asd</div>
+    <div class="movieContents-title">
+      <strong style="font-weight: bold; font-size:24px;">일별 박스오피스</strong><span style="margin-left: 5px; font-size: 12px; font-weight: bold; color:#888">({{ textDate }})</span>
+    </div>
+    <movie-table
+      :date="date"
+    />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import movieTable from '~/components/movie/table'
 
 export default {
     name: 'MovieContents',
-    async fetch () {
-        await axios.get('https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=c2b7583f12c7500b27e82f366ed6cdbb&targetDt=20220920')
-            .then((res) => {
-                console.log('res', res)
-            }).catch((err) => {
-                console.log('err', err)
-            })
-    }
+    components: {
+        movieTable
+    },
+    props: ['date', 'textDate']
 }
 </script>
 
@@ -24,5 +25,9 @@ export default {
     .movieContents-container {
         width : 1100px;
         margin : 0 auto;
+    }
+    .movieContents-rankingTable {
+        width : 100%;
+        margin-top: 20px;
     }
 </style>

@@ -106,7 +106,7 @@ export default {
     methods: {
         getTodayInfo () {
             const nowDate = new Date()
-            const now = new Date(nowDate.setHours(nowDate.getHours() - 3))
+            const now = new Date(nowDate.setHours(nowDate.getHours() - 1))
             const yyyy = now.getFullYear().toString()
             const MM = this.pad(now.getMonth() + 1, 2)
             const dd = this.pad(now.getDate(), 2)

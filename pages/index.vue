@@ -4,7 +4,10 @@
     <sub-header />
     <main-contents />
     <hr class="line">
-    <movie-contents />
+    <movie-contents
+      :date="date"
+      :textDate="textDate"
+    />
   </div>
 </template>
 
@@ -17,6 +20,12 @@ import movieContents from '~/components/movieContents'
 export default {
     name: 'IndexPage',
     components: { allHeader, mainContents, subHeader, movieContents },
+    data () {
+        return {
+            date: '',
+            textDate: ''
+        }
+    },
     head () {
         return {
             title: this.title,
@@ -45,6 +54,15 @@ export default {
             '                    ██ ██   ██          ██    ██    ██    ██ ██   ██    ██    \n' +
             '               ███████ ██████      ███████    ██     ██████  ██████     ██    \n\n' +
             '               %c동원이의 공부방 임미당 https://github.com/seongdongwon1', 'color:blue;', 'color:pink;')
+    },
+    beforeMount () {
+        const date = new Date()
+        const yesterday = new Date(date.setDate(date.getDate() - 1))
+        const year = yesterday.getFullYear()
+        const month = ('0' + (1 + yesterday.getMonth())).slice(-2)
+        const day = ('0' + yesterday.getDate()).slice(-2)
+        this.date = year + month + day
+        this.textDate = year + '.' + month + '.' + day
     }
 }
 </script>
