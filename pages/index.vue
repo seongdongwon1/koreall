@@ -8,6 +8,8 @@
       :date="date"
       :textDate="textDate"
     />
+    <hr class="line">
+    <footer-page />
   </div>
 </template>
 
@@ -16,10 +18,11 @@ import allHeader from '~/components/header'
 import subHeader from '~/components/subHeader'
 import mainContents from '~/components/mainContents'
 import movieContents from '~/components/movieContents'
+import footerPage from '~/components/footer'
 
 export default {
     name: 'IndexPage',
-    components: { allHeader, mainContents, subHeader, movieContents },
+    components: { allHeader, mainContents, subHeader, movieContents, footerPage },
     data () {
         return {
             date: '',
