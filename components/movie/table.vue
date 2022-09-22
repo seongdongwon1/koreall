@@ -20,30 +20,62 @@
       </tr>
     </thead>
     <tbody>
-      <tr
+      <template
         v-for="(item, index) in movieInfo"
-        :key="index"
       >
-        <td>
-          <span style="width:50%; font-weight: bold">
-            {{ item.rank }}
-          </span>
-          <span :class="`${$searchColor(item.rankInten)}`">{{ Math.abs(item.rankInten) }}</span>
-        </td>
-        <td>
-          <span
-            v-if="item.rankOldAndNew === 'NEW'"
-            class="w3-tag w3-round-large w3-red w3-center"
-          >new</span>
-          {{ item.movieNm }}
-        </td>
-        <td>{{ $formatDate(item.openDt) }}</td>
-        <td>
-          <span style="width:50%;">{{ item.audiCnt | formatNum }}명</span>
-          <span :class="`${$searchColor(item.audiInten)}`" style="width:50%; text-align: center">{{ Math.abs(item.audiInten) | formatNum }}</span>
-        </td>
-        <td>{{ item.audiAcc | formatNum }}명</td>
-      </tr>
+        <tr
+          :key="index"
+          class="movieContents-table-info"
+        >
+          <td>
+            <div class="left">
+              {{ item.rank }}
+            </div>
+            <div :class="`right ${$searchColor(item.rankInten)}`">
+              {{ Math.abs(item.rankInten) }}
+            </div>
+          </td>
+          <td
+            @click="clickTab(item.movieCd)"
+          >
+            <span
+              v-if="item.rankOldAndNew === 'NEW'"
+              class="w3-tag w3-round-large w3-red w3-center"
+            >new</span>
+            {{ item.movieNm }}
+          </td>
+          <td>{{ $formatDate(item.openDt) }}</td>
+          <td>
+            <div class="left">
+              {{ item.audiCnt | formatNum }}명
+            </div>
+            <div :class="`right ${$searchColor(item.audiInten)}`">
+              {{ Math.abs(item.audiInten) | formatNum }}
+            </div>
+          </td>
+          <td>{{ item.audiAcc | formatNum }}명</td>
+        </tr>
+        <tr
+          v-if="item.movieCd === clickCode"
+          :key="item.movieCd"
+        >
+          <td colspan="5">
+            <div class="movieDetail">
+              <div class="movieDetail-top">
+                <div class="thumb">
+                  썸네일
+                </div>
+                <div class="detail-info">
+                  <span style="font-weight: bold; font-size: 18px;">{{ detail.name }}</span> <span :class="`w3-tag w3-round-large ${$movieState(detail.state)} w3-center`" style="margin-left:10px;">{{ detail.state }}</span>
+                </div>
+              </div>
+              <div class="movieDetail-bottom">
+                asd
+              </div>
+            </div>
+          </td>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>
@@ -57,9 +89,10 @@ export default {
     data () {
         return {
             movieInfo: '',
-            detail: [],
+            detail: '',
             searchCode: '',
-            searchData: null
+            searchData: null,
+            clickCode: null
         }
     },
     async fetch () {
@@ -69,11 +102,46 @@ export default {
             }).catch((err) => {
                 console.log('err', err)
             })
+    },
+    methods: {
+        clickTab (value) {
+            if (this.clickCode === value) {
+                this.clickCode = null
+            } else {
+                this.clickCode = value
+                this.detail = ''
+                this.getMovieDetail(value)
+            }
+        },
+        async getMovieDetail (code) {
+            await axios.get('http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=c2b7583f12c7500b27e82f366ed6cdbb&movieCd=' + code + '')
+                .then((res) => {
+                    console.log('res', res)
+                    const data = res.data.movieInfoResult.movieInfo
+                    this.detail = {
+                        name: data.movieNm,
+                        state: data.prdtStatNm,
+                        nation: data.nation,
+                        running: data.showTm,
+                        actors: data.actors,
+                        audit: data.audits,
+                        company: data.companys,
+                        director: data.directors,
+                        gubun: data.genres
+                    }
+                }).catch((err) => {
+                    console.log('err', err)
+                })
+        }
     }
 }
 </script>
 
 <style scoped>
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
     table thead th {
         text-align: center;
         padding: 13px 10px;
@@ -87,14 +155,26 @@ export default {
         padding-left: 5px;
         width: 10%;
     }
-    table tbody tr td {
+    table tbody .movieContents-table-info td {
         border : 1px solid #eee;
         border-bottom-color: #ddd;
         padding : 13px 10px;
     }
     table tbody tr td:first-child {
         text-align: center;
-        display: flex;
+    }
+    table tbody tr td:first-child .left{
+        font-weight: bold;
+        width: 40%;
+        float: left;
+        margin: 0 auto;
+        text-align: right;
+    }
+    table tbody tr td:first-child .right{
+        float: left;
+        width: 40%;
+        margin: 0 auto;
+        text-align: center;
     }
     table tbody tr td:nth-child(2) {
         padding-left : 15px;
@@ -103,9 +183,20 @@ export default {
         text-align: center;
     }
     table tbody tr td:nth-child(4) {
-        display: flex;
         text-align: right;
         padding-right: 15px;
+    }
+    table tbody tr td:nth-child(4) .left{
+        width: 50%;
+        float: left;
+        margin: 0 auto;
+        text-align: right;
+    }
+    table tbody tr td:nth-child(4) .right{
+        float: left;
+        width: 45%;
+        margin: 0 auto;
+        text-align: right;
     }
     table tbody tr td:nth-child(5) {
         text-align: right;
@@ -129,7 +220,6 @@ export default {
         border-top: 9px solid #2175ff;
         vertical-align: baseline;
         display: inline-block;
-        margin-right: 4px;
     }
     .up::before {
         content: '';
@@ -140,15 +230,30 @@ export default {
         border-bottom: 9px solid #ff0000;
         vertical-align: 1px;
         display: inline-block;
-        margin-right: 4px;
     }
     .same::before {
         content: '';
         display: inline-block;
-        margin-right: 4px;
         width: 10px;
         height: 4px;
         background: #888;
         vertical-align: 3px;
+    }
+    .movieDetail {
+        padding:30px;
+        display: flex;
+        flex-direction: column;
+    }
+    .movieDetail .movieDetail-top {
+        display: flex;
+    }
+    .movieDetail .movieDetail-top .thumb {
+        width : 30%;
+    }
+    .movieDetail .movieDetail-top .detail-info {
+        width : 70%;
+        text-align: left;
+        display: flex;
+        align-items: center;
     }
 </style>

@@ -23,8 +23,16 @@ function formatDate (date) {
     }
 }
 
+function movieState (value) {
+    if (value === '개봉') {
+        return 'w3-green'
+    } else {
+        return 'w3-black'
+    }
+}
 export default ({ app }, inject) => {
     inject('NumberFormat', NumberFormat)
     inject('searchColor', searchColor)
     inject('formatDate', formatDate)
+    inject('movieState', movieState)
 }
