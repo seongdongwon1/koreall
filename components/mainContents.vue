@@ -229,7 +229,7 @@ export default {
                     this.vaccination.total.four = json.response.body.items.item[2].fourCnt._text
                 }).catch((err) => {
                     this.vaccinationType = false
-                    console.log('hi 12333444')
+                    console.log('hi 123334445555')
                     console.error('접종현황 데이터가 없거나 오류 입니다.', err)
                 })
         },
