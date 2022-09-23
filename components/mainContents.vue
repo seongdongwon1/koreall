@@ -201,11 +201,20 @@ export default {
             }
         }
     },
+    async fetch () {
+        await axios.get('/api/vaccination')
+            .then((res) => {
+                console.log('res', res)
+            }).catch((err) => {
+                console.log('err', err)
+            })
+    },
     mounted () {
-        this.getAgeSex()
-        this.getVaccination()
-        this.getInfection()
-        this.getArea()
+        console.log('123')
+        // this.getAgeSex()
+        // this.getVaccination()
+        // this.getInfection()
+        // this.getArea()
     },
     methods: {
         /**
