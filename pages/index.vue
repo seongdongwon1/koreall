@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import allHeader from '~/components/header'
 import subHeader from '~/components/subHeader'
 import mainContents from '~/components/mainContents'
@@ -23,6 +24,15 @@ import footerPage from '~/components/footer'
 export default {
     name: 'IndexPage',
     components: { allHeader, mainContents, subHeader, movieContents, footerPage },
+    async asyncData () {
+        console.log('async')
+        await axios.get('/api/vaccination')
+            .then((res) => {
+                console.log('res', res)
+            }).catch((err) => {
+                console.log('err', err)
+            })
+    },
     data () {
         return {
             date: '',
