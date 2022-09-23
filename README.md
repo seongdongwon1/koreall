@@ -16,7 +16,7 @@
  - 일일 박스오피스
     - dev환경이든 배포환경이든 둘다 데이터 잘 받아서 처리 하고 있음.
     - table tr 클릭이벤트 주어서 영화 상세목록을 노출시키고 있음.
-    - ![image](https://user-images.githubusercontent.com/49185772/191913711-0e89af0d-bd40-47d7-b074-4d9f0d7745cc.png)
+    ![image](https://user-images.githubusercontent.com/49185772/191913711-0e89af0d-bd40-47d7-b074-4d9f0d7745cc.png)
 
 데이터 출처
  > 공공기관 open api
