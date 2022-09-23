@@ -208,7 +208,7 @@ export default {
                 const json = JSON.parse(convert.xml2json(dataSet, { compact: true }))
                 console.log('json', json)
             }).catch((err) => {
-                console.log('err', err)
+                console.log('erddr', err)
             })
     },
     mounted () {

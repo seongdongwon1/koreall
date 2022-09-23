@@ -1,9 +1,9 @@
 
 export default {
     target: 'static',
-    // router: {
-    //     base: '/koreall/'
-    // },
+    router: {
+        base: '/koreall/'
+    },
     publicPath: '.',
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
     ssr: false,
