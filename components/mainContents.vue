@@ -210,7 +210,7 @@ export default {
             })
     },
     mounted () {
-        console.log('123')
+        console.log('12443')
         // this.getAgeSex()
         // this.getVaccination()
         // this.getInfection()
