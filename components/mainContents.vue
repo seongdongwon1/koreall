@@ -212,7 +212,7 @@ export default {
          *  접종현황 api 호출
          */
         async getVaccination () {
-            await axios.get('/api/vaccination')
+            await axios.get('https://nip.kdca.go.kr/irgd/cov19stats.do?list=all')
                 .then((res) => {
                     const dataSet = res.data
                     const json = JSON.parse(convert.xml2json(dataSet, { compact: true }))
@@ -229,6 +229,7 @@ export default {
                     this.vaccination.total.four = json.response.body.items.item[2].fourCnt._text
                 }).catch((err) => {
                     this.vaccinationType = false
+                    console.log('hi 123')
                     console.error('접종현황 데이터가 없거나 오류 입니다.', err)
                 })
         },

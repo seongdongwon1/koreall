@@ -1,5 +1,5 @@
 <template>
-  <table style="width: 100%;">
+  <table style="width: 100%; margin-top:15px;">
     <thead>
       <tr>
         <th>
