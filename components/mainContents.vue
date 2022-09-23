@@ -212,7 +212,7 @@ export default {
          *  접종현황 api 호출
          */
         async getVaccination () {
-            await axios.get('https://nip.kdca.go.kr/irgd/cov19stats.do?list=all')
+            await axios.get('/api/vaccination')
                 .then((res) => {
                     const dataSet = res.data
                     const json = JSON.parse(convert.xml2json(dataSet, { compact: true }))
