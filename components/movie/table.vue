@@ -36,6 +36,7 @@
             </div>
           </td>
           <td
+            class="clickDetail"
             @click="clickTab(item.movieCd)"
           >
             <span
@@ -62,15 +63,51 @@
           <td colspan="5">
             <div class="movieDetail">
               <div class="movieDetail-top">
-                <div class="thumb">
-                  썸네일
+                <div class="thumb" style="display: flex; justify-content: center; align-items: center;">
+                  썸네일 넣어야 하는데..<br>
+                  데이터 구하고 있음..
                 </div>
                 <div class="detail-info">
-                  <span style="font-weight: bold; font-size: 18px;">{{ detail.name }}</span> <span :class="`w3-tag w3-round-large ${$movieState(detail.state)} w3-center`" style="margin-left:10px;">{{ detail.state }}</span>
+                  <div class="title">
+                    <span style="font-weight: bold; font-size: 18px;">{{ detail.name }}</span>
+                    <span :class="`w3-tag w3-round-large ${$movieState(detail.state)} w3-center`" style="margin-left:10px;">
+                      {{ detail.state }}
+                    </span>
+                  </div>
+                  <div class="info-gubun">
+                    <span class="info-sub">개요</span>
+                    <span
+                      v-for="(gitem, j) in detail.gubun"
+                      :key="j"
+                    >
+                      {{ gitem.genreNm }}<template
+                        v-if="j !== detail.gubun.length - 1"
+                      >,</template>
+                    </span>
+                    <span class="running">{{ detail.running }}분</span>
+                  </div>
+                  <div class="info-open">
+                    <span class="info-sub">개봉</span> {{ $formatDateNothing(detail.open) }}
+                  </div>
+                  <div class="info-actor">
+                    <span class="info-sub">출연</span>
+                    <span
+                      v-for="(actoc, x) in detail.actors"
+                      :key="x"
+                    >
+                      {{ actoc.peopleNm }}<template
+                        v-if="x !== detail.actors.length - 1"
+                      >,</template>
+                    </span>
+                  </div>
+                  <div class="info-director">
+                    <span class="info-sub">감독</span>
+                    <span
+                      v-for="(director, d) in detail.director"
+                      :key="d"
+                    >{{ director.peopleNm }}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="movieDetail-bottom">
-                asd
               </div>
             </div>
           </td>
@@ -116,14 +153,14 @@ export default {
         async getMovieDetail (code) {
             await axios.get('http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=c2b7583f12c7500b27e82f366ed6cdbb&movieCd=' + code + '')
                 .then((res) => {
-                    console.log('res', res)
                     const data = res.data.movieInfoResult.movieInfo
                     this.detail = {
                         name: data.movieNm,
                         state: data.prdtStatNm,
                         nation: data.nation,
+                        open: data.openDt,
                         running: data.showTm,
-                        actors: data.actors,
+                        actors: data.actors.slice(0, 5),
                         audit: data.audits,
                         company: data.companys,
                         director: data.directors,
@@ -253,7 +290,34 @@ export default {
     .movieDetail .movieDetail-top .detail-info {
         width : 70%;
         text-align: left;
+    }
+    .movieDetail .movieDetail-top .detail-info .title{
         display: flex;
         align-items: center;
+    }
+    .movieDetail .movieDetail-top .detail-info .info-gubun{
+        margin-top : 10px;
+    }
+    .movieDetail .movieDetail-top .detail-info .info-open{
+        margin-top : 5px;
+    }
+    .movieDetail .movieDetail-top .detail-info .info-actor{
+        margin-top : 5px;
+    }
+    .clickDetail {
+        cursor: pointer;
+    }
+    .info-sub {
+        color : gray;
+        font-weight: bold;
+    }
+    .running::before {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: 10px;
+        margin: -2px 8px 0;
+        background-color: #a3a6a9;
+        vertical-align: middle;
     }
 </style>

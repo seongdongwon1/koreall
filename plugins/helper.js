@@ -23,6 +23,18 @@ function formatDate (date) {
     }
 }
 
+function formatDateNothing (date) {
+    console.log('date', date)
+    if (date === ' ' || date === undefined) {
+        return '-'
+    } else {
+        const year = date.substring(0, 4)
+        const month = date.substring(4, 6)
+        const day = date.substring(6, 8)
+        return year + '.' + month + '.' + day
+    }
+}
+
 function movieState (value) {
     if (value === '개봉') {
         return 'w3-green'
@@ -35,4 +47,5 @@ export default ({ app }, inject) => {
     inject('searchColor', searchColor)
     inject('formatDate', formatDate)
     inject('movieState', movieState)
+    inject('formatDateNothing', formatDateNothing)
 }
