@@ -66,7 +66,7 @@ export default {
     },
     proxy: {
         '/api/vaccination': {
-            target: 'https://nip.kdca.go.kr/irgd/cov19stats.do?list=all',
+            target: 'http://nip.kdca.go.kr/irgd/cov19stats.do?list=all',
             pathRewrite: { '^/api/vaccination': '' },
             changeOrigin: true,
             secure: false
